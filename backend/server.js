@@ -30,6 +30,13 @@ wss.on('connection', ws => {
     });
   });
 
+  ws.on('close', () => {
+    console.log('Клиент отключен');
+  })
+
+  ws.on('error', error => {
+    console.error('Ошибка в работе сервера: ', error);
+  })
 });
 
 console.log('Сервер запущен на порту 8080');
