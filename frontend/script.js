@@ -12,27 +12,9 @@ socket.onopen = () => {
 };
 
 
-socket.onmessage = (event) => {
-  console.dir(event);
+socket.onmessage = event => {
   const message = JSON.parse(event.data);
-  const messageElement = document.createElement('div');
-
-
-  if (message.type === 'system') {
-    messageElement.classList.add("systemMessage");
-
-  }
-
-  if (message.userName && message.userName === UserName) {
-    messageElement.classList.add("message", "myMessage");
-  } else if (message.userName && message.userName !== UserName) {
-    messageElement.classList.add("message", "userMessage");
-    messageElement.innerHTML = `<p class="userName">${message.userName}: </p>`;
-  }
-
-  messageElement.innerHTML += `<p>${message.content}</p>`;
-  chat.append(messageElement);
-  chat.scrollTop = chat.scrollHeight;
+  showMessage(message);
 }
 
 socket.onclose = event => {
@@ -58,4 +40,24 @@ messageForm.onsubmit = e => {
     socket.send(JSON.stringify(message));
     messageInput.value = "";
   }
+}
+
+
+function showMessage(message) {
+  const messageElement = document.createElement('div');
+
+  if (message.type === 'system') {
+    messageElement.classList.add("systemMessage");
+  }
+
+  if (message.userName && message.userName === UserName) {
+    messageElement.classList.add("message", "myMessage");
+  } else if (message.userName && message.userName !== UserName) {
+    messageElement.classList.add("message", "userMessage");
+    messageElement.innerHTML = `<p class="userName">${message.userName}: </p>`;
+  }
+
+  messageElement.innerHTML += `<p>${message.content}</p>`;
+  chat.append(messageElement);
+  chat.scrollTop = chat.scrollHeight;
 }
