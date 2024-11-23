@@ -2,7 +2,13 @@ const chat = document.getElementById('chat');
 const messageForm = document.getElementById('messageForm');
 const messageInput = document.getElementById('messageInput');
 
-const UserName = prompt("Введите свое имя");
+let UserName = "";
+
+while (UserName === "" || UserName === null) {
+  // alert(UserName);
+  UserName = prompt("Введите свое имя");
+  // alert(UserName);
+}
 
 const socket = new WebSocket('ws://localhost:8080');
 
